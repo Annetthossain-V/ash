@@ -1,26 +1,14 @@
 #pragma once
 
-#include <stdint.h>
+#include <string>
 
-#ifdef __cplusplus
-extern "C" {
 namespace console {
-#endif
 
 extern unsigned int exitcode; 
 
-void prompt();
+std::string prompt();
 
-
-#ifdef __cplusplus
- } }
-#endif
-
-#ifdef __cplusplus
-#include <string>
-namespace console {
-
-  std::string readline();
+std::string readline();
 
 }
-#endif
+

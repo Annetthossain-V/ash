@@ -11,7 +11,7 @@
 
 namespace core {
 
-extern "C" void set_buffer(bool enable) {
+void set_buffer(bool enable) {
   static bool enabled = true;
   static struct termios old;
   struct termios newt;
@@ -31,7 +31,7 @@ extern "C" void set_buffer(bool enable) {
   return;
 }
 
-extern "C" int getch() {
+int getch() {
   set_buffer(false);
   int ch = getchar();
 
@@ -40,21 +40,6 @@ extern "C" int getch() {
 }
 
 
-extern "C" void core_shell() {
-  
-  std::string line = console::readline();
-  if (line == "exit")
-    std::exit(0);
-  else if (line == "CTRL_C")
-    return;
-  
-  std::string formated_line;
-
-
-
-}
-
-void exec_cmd() {}
 
 }
 

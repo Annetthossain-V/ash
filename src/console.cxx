@@ -5,10 +5,10 @@
 
 namespace console {
 
-extern "C" unsigned int exitcode = 0;
+unsigned int exitcode = 0;
 
 
-extern "C" void prompt() {
+std::string prompt() {
   std::string prompt;
   
   char* cwd = prompt.data();
@@ -19,8 +19,7 @@ extern "C" void prompt() {
   prompt.append(std::to_string(exitcode));
   prompt.append("$ ");
 
-  std::cout << prompt;
-  return;
+  return prompt;
 }
 
 std::string readline() {
