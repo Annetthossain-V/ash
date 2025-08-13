@@ -2,6 +2,7 @@
 #include <termios.h>
 #include <stdbool.h>
 
+int exitcode = 0;
 
 void set_buffer(bool enable) {
   static bool enabled = true;

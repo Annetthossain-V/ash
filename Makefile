@@ -3,7 +3,7 @@ CXX = clang++
 CXFLAGS := -Wall -Wextra -mtune=native -O2 -std=c++17 -Wno-unused-parameter
 
 CC = clang
-CFLAGS := -Wall -Wextra -mtune=native -O2 -std=c17
+CFLAGS := -Wall -Wextra -mtune=native -O2 -std=c17 -Wno-unused-parameter
 
 AS = clang 
 ASFLAGS := 
