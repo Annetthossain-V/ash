@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
     exec_cmd(encoded_data);
 
     free(line);
+    formatted_line_free(encoded_data);
   }
   
 

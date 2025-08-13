@@ -1,12 +1,12 @@
 
 CXX = clang++
-CXFLAGS := -Wall -Wextra -mtune=native -O2 -std=c++17 -Wno-unused-parameter
+CXFLAGS := -Wall -Wextra -mtune=native -O0 -std=c++17 -Wno-unused-parameter -g
 
 CC = clang
-CFLAGS := -Wall -Wextra -mtune=native -O2 -std=c17 -Wno-unused-parameter
+CFLAGS := -Wall -Wextra -mtune=native -O0 -std=c17 -Wno-unused-parameter -g
 
 AS = clang 
-ASFLAGS := 
+ASFLAGS := -g
 
 LD = clang++
 LDFLAGS := -O2

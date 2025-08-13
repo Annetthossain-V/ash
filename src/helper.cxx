@@ -11,3 +11,7 @@ extern "C" char* to_string(int number) {
   
   return c_str;
 }
+
+extern "C" bool check_if_internel(char *str) {
+  return false;
+}

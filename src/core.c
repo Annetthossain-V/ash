@@ -49,10 +49,9 @@ void exec_cmd(char** argv) {
 
   else if (process == 0) {
     // chiled
-    if (execvp(argv[0], argv) == 1) {
-      perror("execvp failed");
-      exit(1);
-    }
+    execvp(argv[0], argv);
+    perror("execvp failed");
+    exit(1);
   }
   else {
     // parent
