@@ -7,6 +7,7 @@
 #include <sys/wait.h>
 
 #include "core.h"
+#include "helper.h"
 
 int exitcode = 0;
 
@@ -32,6 +33,12 @@ void set_buffer(bool enable) {
 
 void exec_cmd(char** argv) {
   
+  if (check_if_internel(argv[0])) {
+
+    printf("internel function not implemented!\n");
+    return;
+  }
+
   int status;
   pid_t process = fork();
 
