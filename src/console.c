@@ -9,7 +9,6 @@
 #include "core.h"
 
 void user_prompt() {
-
   char* prompt = (char*) malloc(1024);
   getcwd(prompt, 1000);
 

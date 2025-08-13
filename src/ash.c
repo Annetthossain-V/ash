@@ -5,6 +5,8 @@
 #include <string.h>
 
 #include "console.h"
+#include "core.h"
+#include "format.h"
 
 void flags(int argc, char** argv) { }
 
@@ -23,7 +25,10 @@ int main(int argc, char** argv) {
     else if (!strcmp(line, "") || !strcmp(line, " "))
       continue;
 
+    char** encoded_data = formatted_line(line);
+    exec_cmd(encoded_data);
 
+    free(line);
   }
   
 

@@ -1,0 +1,13 @@
+#include <string>
+#include <vector>
+
+
+char** vector_to_char_ptr(std::vector<std::string> split) {}
+
+extern "C" char** formatted_line(char* line_str) {
+
+  std::string line = line_str;
+
+
+  return nullptr;
+}
