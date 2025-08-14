@@ -4,7 +4,11 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "format.h"
+
 static int split_len = 0;
+
+namespace format {
 
 char** vector_to_char_ptr(std::vector<std::string>& split) {
   int vector_len = split.size();
@@ -35,21 +39,22 @@ std::vector<std::string> split_space(const std::string& str) {
   return tokens;
 }
 
-extern "C" char** formatted_line(char* line_str) {
+std::vector<std::string> formatted_line(std::string line) {
 
-  std::string line = line_str;
   std::vector<std::string> line_tokens = split_space(line);
   
 
   split_len = line_tokens.size();
-  return vector_to_char_ptr(line_tokens);
+  return line_tokens;
 }
 
-extern "C" void formatted_line_free(char** line) {
+void formatted_line_free(char** line) {
   int index = 0;
   while (index < split_len) {
     free(line[index]);
     index++;
   }
   free(line);
+}
+
 }

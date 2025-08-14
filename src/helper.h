@@ -1,6 +1,18 @@
 #pragma once
-#include <stdbool.h>
+#include <string>
 
-char* to_string(int number);
 
-bool check_if_internel(char* str);
+enum key_cmd {
+  none_key,
+  cd_key,
+  let_key,
+  export_key,
+  import_key,
+};
+
+namespace helper {
+
+
+enum key_cmd check_if_internel(std::string& cmd);
+
+}

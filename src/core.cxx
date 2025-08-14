@@ -1,13 +1,14 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <termios.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <sys/wait.h>
 
 #include "core.h"
 #include "helper.h"
+
+namespace core {
 
 int exitcode = 0;
 
@@ -32,13 +33,6 @@ void set_buffer(bool enable) {
 }
 
 void exec_cmd(char** argv) {
-  
-  if (check_if_internel(argv[0])) {
-
-    printf("internel function not implemented!\n");
-    return;
-  }
-
   int status;
   pid_t process = fork();
 
@@ -67,4 +61,6 @@ void exec_cmd(char** argv) {
   }
 
   return;
+}
+
 }

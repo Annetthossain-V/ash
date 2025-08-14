@@ -1,12 +1,14 @@
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <vector>
 
 #include "console.h"
 #include "core.h"
 #include "format.h"
+#include "helper.h"
+#include "utils.h"
 
 void flags(int argc, char** argv) { }
 
@@ -18,18 +20,36 @@ int main(int argc, char** argv) {
 
   while (true) {
 
-    user_prompt();
-    char* line = readline();
-    if (!strcmp(line, "exit"))
+    console::user_prompt();
+    std::string line = console::readline();
+    if (line == "exit")
       return 0;
-    else if (!strcmp(line, "") || !strcmp(line, " "))
+    else if (line.empty())
       continue;
 
-    char** encoded_data = formatted_line(line);
-    exec_cmd(encoded_data);
+    std::vector<std::string> fmt_line = format::formatted_line(line);
+    
+    enum key_cmd key = helper::check_if_internel(fmt_line[0]);
+    switch (key) {
+      case key_cmd::none_key:
+        break;
 
-    free(line);
-    formatted_line_free(encoded_data);
+      case key_cmd::cd_key:
+        if (fmt_line.size() != 2) {
+          std::cerr << "too many arguments for cd\n";
+          continue;
+        }
+        if (!utils::cd(fmt_line[1]))
+          perror("cd");
+
+      default:
+        continue;
+    }
+    
+
+    char** exec_args = format::vector_to_char_ptr(fmt_line);
+    core::exec_cmd(exec_args);
+    format::formatted_line_free(exec_args);
   }  
 
   return 0;

@@ -1,12 +1,14 @@
 
 #include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 
 #include "console.h"
 #include "helper.h"
 #include "core.h"
+
+namespace console {
 
 void user_prompt() {
   char* prompt = (char*) malloc(1024);
@@ -14,22 +16,23 @@ void user_prompt() {
 
 
   strcat(prompt, "\n");
-  char* exit_code = to_string(exitcode);
-  strcat(prompt, exit_code);
+  std::string exit_code = std::to_string(core::exitcode);
+  strcat(prompt, exit_code.c_str());
   strcat(prompt, "$ ");
 
   printf("%s", prompt);
   free(prompt);
-  free(exit_code);
   return;
 }
 
-char* readline() {
+std::string readline() {
 
   // not gonna implement the full
-  char* thing = malloc(1024);
+  char* thing = (char*) malloc(1024);
   fgets(thing, 512, stdin);
   thing[strlen(thing) - 1] = '\0';
 
   return thing;
+}
+
 }

@@ -1,5 +1,11 @@
 #pragma once
+#include <string>
 
+namespace console {
 
 void user_prompt();
-char* readline();
+std::string readline();
+
+}
+
+

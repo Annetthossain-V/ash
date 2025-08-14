@@ -3,15 +3,22 @@
 #include <cstdlib>
 #include <cstring>
 
-extern "C" char* to_string(int number) {
-  
-  std::string str = std::to_string(number);
-  char* c_str = (char*) std::malloc(str.length() + 2);
-  std::strcpy(c_str, str.c_str());
-  
-  return c_str;
+#include "helper.h"
+
+namespace helper {
+
+enum key_cmd check_if_internel(std::string& cmd) {
+
+  if (cmd == "cd")
+    return key_cmd::cd_key;
+  else if (cmd == "let")
+    return key_cmd::let_key;
+  else if (cmd == "export")
+    return key_cmd::export_key;
+  else if (cmd == "import")
+    return key_cmd::import_key;
+
+  return key_cmd::none_key;
 }
 
-extern "C" bool check_if_internel(char *str) {
-  return false;
 }
