@@ -17,7 +17,7 @@ char** vector_to_char_ptr(std::vector<std::string>& split) {
     index++;
   }
 
-  c_array[index + 1] = NULL;
+  c_array[index] = NULL;
 
   return c_array;
 }
