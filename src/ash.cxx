@@ -30,9 +30,7 @@ int main(int argc, char** argv) {
 
     free(line);
     formatted_line_free(encoded_data);
-  }
-  
+  }  
 
   return 0;
-
 }
