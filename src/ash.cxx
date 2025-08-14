@@ -10,6 +10,11 @@
 #include "helper.h"
 #include "utils.h"
 
+
+#define SIG_CONT 22
+#define SIG_RET 73
+
+
 void flags(int argc, char** argv) { }
 
 
