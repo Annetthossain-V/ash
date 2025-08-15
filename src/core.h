@@ -1,5 +1,7 @@
 #pragma once
-#include <stdbool.h>
+#include <string>
+
+int shell_core(std::string& line);
 
 namespace core {
 
