@@ -31,11 +31,9 @@ char* user_prompt() {
 
 char* get_stdin() {
   char* ss = NULL;
-  #ifdef _BUILD64XX
   char* s = user_prompt();
   ss = readline(s);
   free(s);
-  #endif
   return ss;
 }
 
