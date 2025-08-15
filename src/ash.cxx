@@ -37,6 +37,7 @@ int main(int argc, char** argv) {
       case SIG_EXIT:
         return 0;
     }
+
   }
   return 0;
 }
@@ -44,20 +45,29 @@ int main(int argc, char** argv) {
 int shell_core(std::string& line) {
   if (line.empty())
     return SIG_CONT;
+
   else if (line == "exit")
     return SIG_EXIT;
 
+  else if (line == "version") {
+    std::cout << "ash shell version 0.0.3" << std::endl;
+    return SIG_CONT;
+  }
+
   std::vector<std::string> fmt_line = format::formatted_line(line);
     
-  enum key_cmd key = helper::check_if_internel(fmt_line[0]);
+  key_cmd key = helper::check_if_internel(fmt_line[0]);
+
   switch (key) {
     case key_cmd::none_key:
       break;
+
     case key_cmd::cd_key:
       if (fmt_line.size() != 2) {
         std::cerr << "too many arguments for cd\n";
         return SIG_CONT;
       }
+
       if (!utils::cd(fmt_line[1]))
         perror("cd");
       return SIG_RET;
@@ -65,6 +75,7 @@ int shell_core(std::string& line) {
     case key_cmd::let_key:
       if (!var_handler(fmt_line))
         core::exitcode = 1;
+
       return SIG_RET;
     default:
       return SIG_CONT;
