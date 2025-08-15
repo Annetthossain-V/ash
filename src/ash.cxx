@@ -10,23 +10,32 @@
 #include "helper.h"
 #include "utils.h"
 
+<<<<<<< HEAD
 
 #define SIG_CONT 22
 #define SIG_RET 73
 
 
 void flags(int argc, char** argv) { }
+=======
+extern int shell_core();
+>>>>>>> f0b8307 (shell_core)
 
+void flags(int argc, char** argv) { }
 
 int main(int argc, char** argv) {
 
   flags(argc, argv);
+  return shell_core();
+}
 
+int shell_core() {
 
   while (true) {
 
     console::user_prompt();
     std::string line = console::readline();
+
     if (line == "exit")
       return 0;
     else if (line.empty())
