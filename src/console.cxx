@@ -3,6 +3,12 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
+#include <string>
+
+#ifdef _BUILD64XX
+#include <readline/readline.h>
+// make the lsp shut up
+#endif
 
 #include "console.h"
 #include "helper.h"
@@ -10,29 +16,27 @@
 
 namespace console {
 
-void user_prompt() {
+char* user_prompt() {
   char* prompt = (char*) malloc(1024);
   getcwd(prompt, 1000);
 
 
-  strcat(prompt, "\n");
+  strcat(prompt, "[");
   std::string exit_code = std::to_string(core::exitcode);
   strcat(prompt, exit_code.c_str());
-  strcat(prompt, "$ ");
+  strcat(prompt, "]->$ ");
 
-  printf("%s", prompt);
-  free(prompt);
-  return;
+  return prompt;
 }
 
-std::string readline() {
-
-  // not gonna implement the full
-  char* thing = (char*) malloc(1024);
-  fgets(thing, 512, stdin);
-  thing[strlen(thing) - 1] = '\0';
-
-  return thing;
+char* get_stdin() {
+  char* ss = NULL;
+  #ifdef _BUILD64XX
+  char* s = user_prompt();
+  ss = readline(s);
+  free(s);
+  #endif
+  return ss;
 }
 
 }

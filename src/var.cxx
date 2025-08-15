@@ -28,18 +28,16 @@ bool var_handler(std::vector<std::string>& lines) {
   
   std::string& check_str = lines[3];
 
-  if (check_str[0] == '"') {
-    // string handler
-  }
-  else if (check_str.contains(".")) {
+
+  // else if (check_str.contains(".")) {
     // float handler
-  }
-  else {
-    // integer handler
-    mode = var_mode::i32;
-    std::any data = std::atoi(lines[3].c_str());
-    container.set(mode, data);
-  }
+  // }
+  //else {
+  //  // integer handler
+  //  mode = var_mode::i32;
+  //  std::any data = std::atoi(lines[3].c_str());
+  //  container.set(mode, data);
+  //}
   
 
   return true;

@@ -4,6 +4,11 @@
 #include <string>
 #include <vector>
 
+#ifdef _BUILD64XX
+#include <readline/readline.h>
+#include <readline/history.h>
+#endif
+
 #include "console.h"
 #include "core.h"
 #include "format.h"
@@ -23,9 +28,12 @@ int main(int argc, char** argv) {
 
   flags(argc, argv);
 
+  rl_initialize();
+
   while (true) {
-    console::user_prompt();
-    std::string line = console::readline();
+    char* line_ptr = console::get_stdin();
+    std::string line = line_ptr;
+    add_history(line_ptr);
 
     int sig = shell_core(line);
     switch (sig) {
@@ -38,6 +46,8 @@ int main(int argc, char** argv) {
         return 0;
     }
 
+    add_history(line_ptr);
+    free(line_ptr);
   }
   return 0;
 }

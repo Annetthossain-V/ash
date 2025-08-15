@@ -1,23 +1,21 @@
 
+LIB_INC = /home/annetthossain/include/
+LIB_DIR = /home/annetthossain/lib/
+
 CXX = clang++
-CXFLAGS := -Wall -Wextra -mtune=native -O0 -std=c++17 -g
+CXFLAGS := -Wall -Wextra -mtune=native -O0 -std=c++17 -I$(LIB_INC) -D_BUILD64XX -g 
 
 CC = clang
 CFLAGS := -Wall -Wextra -mtune=native -O0 -std=c17 -Wno-unused-parameter -g
 
-AS = clang 
-ASFLAGS := -g
-
 LD = clang++
-LDFLAGS := -O2
+LDFLAGS := -O2 -L$(LIB_DIR) -lreadline -lncurses
 
 SRC_CXX := $(wildcard src/*.cxx)
 SRC_C := $(wildcard src/*.c)
-SRC_AS := $(wildcard src/*.s)
 
 OBJ_CXX := $(patsubst src/%.cxx,%.o,$(SRC_CXX))
 OBJ_C := $(patsubst src/%.c,%.o,$(SRC_C))
-OBJ_AS := $(patsubst src/%.s,%.o,$(SRC_AS))
 
 PNAME = ash
 
@@ -29,11 +27,8 @@ all: link clean
 %.o: src/%.c 
 		$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: src/%.s
-		$(AS) $(ASFLAGS) -c $< -o $@
-
-link: $(OBJ_C) $(OBJ_CXX) $(OBJ_AS)
-		$(CXX) $(LDFLAGS) $(OBJ_C) $(OBJ_CXX) $(OBJ_AS) -o $(PNAME)
+link: $(OBJ_C) $(OBJ_CXX)
+		$(CXX) $(LDFLAGS) $(OBJ_C) $(OBJ_CXX) -o $(PNAME)
 
 clean:
 		rm -rf *.o
