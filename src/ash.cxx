@@ -3,11 +3,8 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
-
-#ifdef _BUILD64XX
 #include <readline/readline.h>
 #include <readline/history.h>
-#endif
 
 #include "console.h"
 #include "core.h"
@@ -35,18 +32,20 @@ int main(int argc, char** argv) {
     std::string line = line_ptr;
     add_history(line_ptr);
 
+    std::cout << line << std::endl;
+
     int sig = shell_core(line);
     switch (sig) {
       case SIG_CONT:
       case SIG_RET:
         continue;
+
       case SIG_ERROR:
         return 1;
       case SIG_EXIT:
         return 0;
     }
 
-    add_history(line_ptr);
     free(line_ptr);
   }
   return 0;
@@ -65,7 +64,9 @@ int shell_core(std::string& line) {
   }
 
   std::vector<std::string> fmt_line = format::formatted_line(line);
-    
+  if (fmt_line.empty())
+    return SIG_CONT;
+
   key_cmd key = helper::check_if_internel(fmt_line[0]);
 
   switch (key) {
@@ -80,8 +81,8 @@ int shell_core(std::string& line) {
 
       if (!utils::cd(fmt_line[1]))
         perror("cd");
-      return SIG_RET;
 
+      return SIG_RET;
     case key_cmd::let_key:
       if (!var_handler(fmt_line))
         core::exitcode = 1;

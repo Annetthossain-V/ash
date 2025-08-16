@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "iostream"
+
 #include "format.h"
 
 static int split_len = 0;
@@ -26,17 +28,71 @@ char** vector_to_char_ptr(std::vector<std::string>& split) {
   return c_array;
 }
 
-std::vector<std::string> split_space(const std::string& str) {
-  std::vector<std::string> tokens;
-  std::istringstream iss(str);
-  std::string token;
-  split_len = 0;
+std::vector<std::string> merge_quoted(const std::vector<std::string>& words) {
+  std::vector<std::string> result;
+  std::string buffer;
+  bool in_quotes = false;
 
-  while (iss >> token) {
-    tokens.push_back(token);
+  for (const auto& word : words) {
+    if (!in_quotes) {
+      if (!word.empty() && word.front() == '"') {
+        in_quotes = true;
+        buffer = word.substr(1);
+        if (!buffer.empty() && buffer.back() == '"') {
+          buffer.pop_back();
+          in_quotes = false;
+          result.push_back(buffer);
+          buffer.clear();
+        }
+      } else {
+        result.push_back(word);
+      }
+    } else {
+      buffer += (buffer.empty() ? "" : " ") + word;
+      if (!word.empty() && word.back() == '"') {
+        buffer.pop_back();
+        result.push_back(buffer);
+        buffer.clear();
+        in_quotes = false;
+      }
+    }
   }
 
-  return tokens;
+  return result;
+}
+
+std::vector<std::string> split_space(const std::string& s) {
+  std::vector<std::string> result;
+  std::string token;
+  bool in_quotes = false;
+  bool escape = false;
+
+  for (char c : s) {
+    if (escape) {
+      token += c;
+      escape = false;
+    }
+    else if (c == '\\') {
+      escape = true;
+    }
+    else if (c == '"') {
+      in_quotes = !in_quotes;
+    }
+    else if (c == ' ' && !in_quotes) {
+      if (!token.empty()) {
+        result.push_back(token);
+        token.clear();
+      }
+    }
+    else {
+      token += c;
+    }
+  }
+  
+  if (!token.empty())
+    result.push_back(token);
+
+  return result;
 }
 
 std::vector<std::string> formatted_line(std::string line) {
@@ -58,3 +114,5 @@ void formatted_line_free(char** line) {
 }
 
 }
+
+

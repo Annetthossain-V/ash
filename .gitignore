@@ -1,2 +1,4 @@
 ash
+ash.core
+build/
 *.o
