@@ -40,13 +40,12 @@ bool var_handler(std::vector<std::string>& lines) {
       mode = var_mode::i32;
       container.set(mode, atoi(value.c_str()));
     }
-    vars.emplace(var_name, container);
   }
   else {
     mode = var_mode::str;
     container.set(mode, value);
-    vars.emplace(var_name, container);
   }
+  vars.emplace(var_name, container);
 
   return true;
 }
