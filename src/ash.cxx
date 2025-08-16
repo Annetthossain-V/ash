@@ -5,6 +5,8 @@
 #include <vector>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <unistd.h>
+#include <csignal>
 
 #include "console.h"
 #include "core.h"
@@ -21,11 +23,20 @@
 
 void flags(int argc, char** argv) { }
 
+void ctrl_c(int signum) { 
+  char* cstr = console::get_stdin();
+  add_history(cstr);
+  std::string str = cstr;
+  if (shell_core(str) == SIG_EXIT)
+    exit(0);
+}
+
 int main(int argc, char** argv) {
 
+  signal(SIGINT, ctrl_c);
   flags(argc, argv);
-
   rl_initialize();
+
 
   while (true) {
     char* line_ptr = console::get_stdin();
