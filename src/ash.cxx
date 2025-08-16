@@ -43,8 +43,6 @@ int main(int argc, char** argv) {
     std::string line = line_ptr;
     add_history(line_ptr);
 
-    std::cout << line << std::endl;
-
     int sig = shell_core(line);
     switch (sig) {
       case SIG_CONT:

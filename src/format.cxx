@@ -4,8 +4,7 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "iostream"
-
+#include "io.h"
 #include "format.h"
 
 static int split_len = 0;
@@ -26,39 +25,6 @@ char** vector_to_char_ptr(std::vector<std::string>& split) {
   c_array[index] = NULL;
 
   return c_array;
-}
-
-std::vector<std::string> merge_quoted(const std::vector<std::string>& words) {
-  std::vector<std::string> result;
-  std::string buffer;
-  bool in_quotes = false;
-
-  for (const auto& word : words) {
-    if (!in_quotes) {
-      if (!word.empty() && word.front() == '"') {
-        in_quotes = true;
-        buffer = word.substr(1);
-        if (!buffer.empty() && buffer.back() == '"') {
-          buffer.pop_back();
-          in_quotes = false;
-          result.push_back(buffer);
-          buffer.clear();
-        }
-      } else {
-        result.push_back(word);
-      }
-    } else {
-      buffer += (buffer.empty() ? "" : " ") + word;
-      if (!word.empty() && word.back() == '"') {
-        buffer.pop_back();
-        result.push_back(buffer);
-        buffer.clear();
-        in_quotes = false;
-      }
-    }
-  }
-
-  return result;
 }
 
 std::vector<std::string> split_space(const std::string& s) {
@@ -95,10 +61,26 @@ std::vector<std::string> split_space(const std::string& s) {
   return result;
 }
 
+void replace_home(std::vector<std::string>& line) {
+  
+  std::string dir = io::envinfo("HOME");
+  size_t pos;
+  size_t index = 0;
+
+  for (auto &str : line) {
+    size_t pos = 0;
+    while ((pos = str.find("~", pos)) != std::string::npos) {
+      str.replace(pos, 1, dir);
+      pos += dir.length();
+    }
+  }
+}
+
 std::vector<std::string> formatted_line(std::string line) {
 
   std::vector<std::string> line_tokens = split_space(line);
-  
+  replace_home(line_tokens);
+  // TODO: replace vars and envs
 
   split_len = line_tokens.size();
   return line_tokens;

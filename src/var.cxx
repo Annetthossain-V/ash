@@ -3,15 +3,19 @@
 #include <string>
 #include <unordered_map>
 #include <iostream>
+#include <algorithm>
+#include <cctype>
 
 #include "var.h"
 
 std::unordered_map<std::string, var> vars;
 
 bool var_handler(std::vector<std::string>& lines) {
-  std::string vname = "$";
-  var_mode mode;
-  var container(var_mode::i32, 1);
+  std::string var_name = "$";
+  var_mode mode = var_mode::i32;
+  var container(mode, 1);
+
+  // TODO: add static value type
 
   if (lines.size() < 4) {
     std::cerr << "let: invalid arguments!" << std::endl;
@@ -23,24 +27,41 @@ bool var_handler(std::vector<std::string>& lines) {
     std::cerr << "equal operator missing!" << std::endl;
     return false;
   }
-
-  vname.append(lines[1]);
+  var_name.append(lines[1]);
   
-  std::string& check_str = lines[3];
+  auto value = lines[3];
+  bool all_digits = std::all_of(value.begin(), value.end(), ::isdigit);
 
-
-  // else if (check_str.contains(".")) {
-    // float handler
-  // }
-  //else {
-  //  // integer handler
-  //  mode = var_mode::i32;
-  //  std::any data = std::atoi(lines[3].c_str());
-  //  container.set(mode, data);
-  //}
-  
+  if (all_digits) {
+    if (value.find(".") != std::string::npos) {
+      mode = var_mode::f32;
+      container.set(mode, (float)atof(value.c_str()));
+    } else {
+      mode = var_mode::i32;
+      container.set(mode, atoi(value.c_str()));
+    }
+    vars.emplace(var_name, container);
+  }
+  else {
+    mode = var_mode::str;
+    container.set(mode, value);
+    vars.emplace(var_name, container);
+  }
 
   return true;
+}
+
+var getvar(std::string& name) {
+  auto item = vars.find(name);
+  if (item != vars.end()) {
+    return item->second;
+  } else {
+    return var(var_mode::i32, 0);
+  }
+}
+
+void setvar(var item, std::string& name) {
+  vars.emplace(name, item);
 }
 
 var::var(var_mode mode, std::any data) {
