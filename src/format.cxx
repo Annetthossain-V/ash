@@ -1,15 +1,20 @@
-#include <sstream>
+#include <map>
 #include <string>
 #include <vector>
 #include <cstdlib>
 #include <cstring>
+#include <any>
 
 #include "io.h"
 #include "format.h"
+#include "var.h" 
 
 static int split_len = 0;
 
+
 namespace format {
+
+std::map<std::string, std::string> alias;
 
 char** vector_to_char_ptr(std::vector<std::string>& split) {
   int vector_len = split.size();
@@ -62,7 +67,6 @@ std::vector<std::string> split_space(const std::string& s) {
 }
 
 void replace_home(std::vector<std::string>& line) {
-  
   std::string dir = io::envinfo("HOME");
   size_t pos;
   size_t index = 0;
@@ -74,13 +78,44 @@ void replace_home(std::vector<std::string>& line) {
       pos += dir.length();
     }
   }
+
+  return;
+}
+
+void replace_alias(std::vector<std::string>& line);
+
+void replace_vars(std::vector<std::string>& line) {
+  variable::var data(variable::var_mode::i32, 1);
+
+  size_t index = 0;
+
+  for (auto &str : line) {
+    if (str[0] == '$') {
+      variable::var curr_var = variable::getvar(str);
+      std::string content;
+      switch(curr_var.type) {
+        case variable::var_mode::i32:
+          content = std::to_string(std::any_cast<int>(curr_var.data(curr_var.type)));
+          break;
+        case variable::var_mode::f32:
+          content = std::to_string(std::any_cast<float>(curr_var.data(curr_var.type)));
+          break;
+        case variable::var_mode::str:
+          content = std::any_cast<std::string>(curr_var.data(curr_var.type));
+          break;
+      }
+      str = content;
+    } 
+  }
+
+  return;
 }
 
 std::vector<std::string> formatted_line(std::string line) {
 
   std::vector<std::string> line_tokens = split_space(line);
   replace_home(line_tokens);
-  // TODO: replace vars and envs
+  replace_vars(line_tokens);
 
   split_len = line_tokens.size();
   return line_tokens;
@@ -94,6 +129,13 @@ void formatted_line_free(char** line) {
   }
   free(line);
 }
+
+void setalias(std::vector<std::string> &line) {
+
+
+  return;
+}
+
 
 }
 

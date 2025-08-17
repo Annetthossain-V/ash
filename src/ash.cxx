@@ -93,7 +93,7 @@ int shell_core(std::string& line) {
 
       return SIG_RET;
     case key_cmd::let_key:
-      if (!var_handler(fmt_line))
+      if (!variable::var_handler(fmt_line))
         core::exitcode = 1;
 
       return SIG_RET;

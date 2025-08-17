@@ -17,6 +17,10 @@ enum key_cmd check_if_internel(std::string& cmd) {
     return key_cmd::export_key;
   else if (cmd == "import")
     return key_cmd::import_key;
+  else if (cmd == "math")
+    return key_cmd::math_key;
+  else if (cmd == "alias")
+    return key_cmd::alias_key;
 
   return key_cmd::none_key;
 }

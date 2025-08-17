@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <string>
 #include <cstdlib>
 
@@ -11,6 +12,18 @@ std::string envinfo(const std::string name) {
   if (env == NULL) 
     return "";
   return env;
+}
+
+void create_env(const std::string name, const std::string value) {
+  std::string formatted_str;
+  formatted_str.append(name);
+  formatted_str.append("=");
+  formatted_str.append(value);
+
+  if (putenv(formatted_str.data()) != 0)
+    throw std::runtime_error("unable to create environment variable");
+
+  return;
 }
 
 }

@@ -8,6 +8,8 @@ enum key_cmd {
   let_key,
   export_key,
   import_key,
+  math_key,
+  alias_key,
 };
 
 namespace helper {

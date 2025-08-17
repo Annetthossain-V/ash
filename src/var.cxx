@@ -8,6 +8,8 @@
 
 #include "var.h"
 
+namespace variable {
+
 std::unordered_map<std::string, var> vars;
 
 bool var_handler(std::vector<std::string>& lines) {
@@ -34,7 +36,7 @@ bool var_handler(std::vector<std::string>& lines) {
 
   if (all_digits) {
     if (value.find(".") != std::string::npos) {
-      mode = var_mode::f32;
+mode = var_mode::f32;
       container.set(mode, (float)atof(value.c_str()));
     } else {
       mode = var_mode::i32;
@@ -45,7 +47,8 @@ bool var_handler(std::vector<std::string>& lines) {
     mode = var_mode::str;
     container.set(mode, value);
   }
-  vars.emplace(var_name, container);
+  //vars.emplace(var_name, container);
+  vars.insert_or_assign(var_name, container);
 
   return true;
 }
@@ -64,20 +67,17 @@ void setvar(var item, std::string& name) {
 }
 
 var::var(var_mode mode, std::any data) {
-  this->f32 = new float;
-  this->i32 = new int;
   this->set(mode, data);
-
   return;
 }
 
 void var::set(var_mode mode, std::any data) {
   switch (mode) {
     case var_mode::f32:
-      *this->f32 = std::any_cast<float>(data);
+      this->f32 = std::any_cast<float>(data);
       break;
     case var_mode::i32:
-      *this->i32 = std::any_cast<int>(data);
+      this->i32 = std::any_cast<int>(data);
       break;
     case var_mode::str:
       this->str = std::any_cast<std::string>(data);
@@ -89,8 +89,6 @@ void var::set(var_mode mode, std::any data) {
 }
 
 var::~var() {
-  delete this->f32;
-  delete this->i32; 
   this->str.clear();
   return;
 }
@@ -98,10 +96,12 @@ var::~var() {
 std::any var::data(var_mode mode) {
   switch (mode) {
     case var_mode::f32:
-      return std::any(*this->f32);
+      return std::any(this->f32);
     case var_mode::i32:
-      return std::any(*this->i32);
+      return std::any(this->i32);
     case var_mode::str:
       return std::any(this->str);
   }
+}
+
 }
