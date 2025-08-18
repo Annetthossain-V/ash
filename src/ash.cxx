@@ -8,6 +8,7 @@
 #include <readline/history.h>
 #include <unistd.h>
 #include <csignal>
+#include <print>
 
 #include "console.h"
 #include "core.h"
@@ -70,8 +71,8 @@ int shell_core(std::string& line) {
   else if (line == "exit")
     return SIG_EXIT;
 
-  else if (line == "version") {
-    std::cout << "ash shell version 0.0.3" << std::endl;
+  else if (line == "version" || line == "ver") {
+    std::println("Ash Version 1.0");
     return SIG_CONT;
   }
 
