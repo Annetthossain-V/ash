@@ -8,7 +8,6 @@
 namespace helper {
 
 enum key_cmd check_if_internel(std::string& cmd) {
-
   if (cmd == "cd")
     return key_cmd::cd_key;
   else if (cmd == "let")
@@ -21,6 +20,8 @@ enum key_cmd check_if_internel(std::string& cmd) {
     return key_cmd::math_key;
   else if (cmd == "alias")
     return key_cmd::alias_key;
+  else if (cmd == "print")
+    return key_cmd::print_key;
 
   return key_cmd::none_key;
 }

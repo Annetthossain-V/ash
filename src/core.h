@@ -25,7 +25,7 @@ void invoke_except(Func&& f, Args&&... args) {
   try {
     std::invoke(std::forward<Func>(f), std::forward<Args>(args)...);
   } catch (const std::runtime_error& err) {
-    std::cerr << "[Runtime error]" << std::endl;
+    std::cerr << "[Runtime error]";
     eprintexcept(err);
     exitcode = 1;
   } catch (const std::exception& err) {

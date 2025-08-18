@@ -1,8 +1,11 @@
 #pragma once
 #include <string>
+#include <vector>
 
 namespace utils {
 
-bool cd(std::string& path);
+void cd(std::vector<std::string>& path);
+
+void utils_print(std::vector<std::string>& line);
 
 }

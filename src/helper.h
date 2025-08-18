@@ -10,6 +10,7 @@ enum key_cmd {
   import_key,
   math_key,
   alias_key,
+  print_key,
 };
 
 namespace helper {

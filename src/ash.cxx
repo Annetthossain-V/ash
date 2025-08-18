@@ -48,19 +48,15 @@ int main(int argc, char** argv) {
     add_history(line_ptr);
 
     int sig = shell_core(line);
-    switch (sig) {
-      case SIG_CONT:
-      case SIG_RET:
-        continue;
-
-      case SIG_ERROR:
-        return 1;
-      case SIG_EXIT:
-        return 0;
-    }
+     
+    if (sig == SIG_EXIT)
+      return 0;
+    else if (sig == SIG_ERROR)
+      return 1;
 
     free(line_ptr);
   }
+
   return 0;
 }
 
@@ -92,12 +88,7 @@ int shell_core(std::string& line) {
       break;
 
     case key_cmd::cd_key:
-      if (fmt_line.size() != 2) {
-        std::cerr << "too many arguments for cd\n";
-        return SIG_CONT;
-      }
-      if (!utils::cd(fmt_line[1]))
-        perror(fmt_line[1].c_str());
+      core::invoke_except(utils::cd, std::ref(fmt_line));
       return SIG_RET;
 
     case key_cmd::let_key:
@@ -119,6 +110,10 @@ int shell_core(std::string& line) {
 
     case key_cmd::export_key:
       core::invoke_except(io::export_handler, std::ref(fmt_line));
+      return SIG_RET;
+
+    case key_cmd::print_key:
+      utils::utils_print(fmt_line);
       return SIG_RET;
 
     default:
