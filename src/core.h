@@ -27,10 +27,13 @@ void invoke_except(Func&& f, Args&&... args) {
   } catch (const std::runtime_error& err) {
     std::cerr << "[Runtime error]" << std::endl;
     eprintexcept(err);
+    exitcode = 1;
   } catch (const std::exception& err) {
     eprintexcept(err);
+    exitcode = 1;
   } catch (...) {
     std::cerr << "[ASH ERROR EXCP]: ERR 44" << std::endl;
+    exitcode = 1;
   }
 }
 

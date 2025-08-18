@@ -99,6 +99,10 @@ void replace_vars(std::vector<std::string>& line) {
   variable::var data(variable::var_mode::i32, 1);
   if (line[0] == "math")
     return;
+  if (line[0] == "import")
+    return;
+  if (line[0] == "export")
+    return;
 
   for (auto &str : line) {
     if (str[0] == '$') {
@@ -148,6 +152,9 @@ void setalias(std::vector<std::string> &line) {
 
   if (line.size() < 3 || (line[2] == "=" && line.size() < 4))
     throw std::runtime_error("invalid args");
+
+  if (line.size() > 4)
+    throw std::runtime_error("too many args");
 
   if (line[2] == "=") {
     name = line[1];

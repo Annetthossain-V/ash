@@ -36,7 +36,7 @@ bool var_handler(std::vector<std::string>& lines) {
 
   if (all_digits) {
     if (value.find(".") != std::string::npos) {
-mode = var_mode::f32;
+      mode = var_mode::f32;
       container.set(mode, (float)atof(value.c_str()));
     } else {
       mode = var_mode::i32;

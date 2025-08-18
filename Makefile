@@ -4,10 +4,10 @@ LIB_DIR = /home/annetthossain/lib/
 
 BUILD_DIR = build
 
-CXX = clang++
+CXX = c++
 CXFLAGS := -Wall -Wextra -std=c++23 -I$(LIB_INC) -D_BUILD64XX -Wno-unused-parameter 
 
-CC = clang
+CC = cc
 CFLAGS := -Wall -Wextra -std=c17 -Wno-unused-parameter
 
 ifdef Release

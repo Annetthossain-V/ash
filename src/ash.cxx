@@ -16,6 +16,7 @@
 #include "utils.h"
 #include "var.h"
 #include "math.h"
+#include "io.h"
 
 #define SIG_CONT  22
 #define SIG_RET   73
@@ -95,7 +96,7 @@ int shell_core(std::string& line) {
         return SIG_CONT;
       }
       if (!utils::cd(fmt_line[1]))
-        perror("cd");
+        perror(fmt_line[1].c_str());
       return SIG_RET;
 
     case key_cmd::let_key:
@@ -109,6 +110,14 @@ int shell_core(std::string& line) {
 
     case key_cmd::math_key:
       core::invoke_except(math::math_handler, std::ref(fmt_line)); 
+      return SIG_RET;
+
+    case key_cmd::import_key:
+      core::invoke_except(io::import_handler, std::ref(fmt_line));
+      return SIG_RET;
+
+    case key_cmd::export_key:
+      core::invoke_except(io::export_handler, std::ref(fmt_line));
       return SIG_RET;
 
     default:
