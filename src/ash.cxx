@@ -108,7 +108,7 @@ int shell_core(std::string& line) {
       return SIG_RET;
 
     case key_cmd::math_key:
-      
+      core::invoke_except(math::math_handler, std::ref(fmt_line)); 
       return SIG_RET;
 
     default:

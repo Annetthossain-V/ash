@@ -5,10 +5,17 @@ LIB_DIR = /home/annetthossain/lib/
 BUILD_DIR = build
 
 CXX = clang++
-CXFLAGS := -Wall -Wextra -mtune=native -g -O0 -std=c++23 -I$(LIB_INC) -D_BUILD64XX -Wno-unused-parameter 
+CXFLAGS := -Wall -Wextra -std=c++23 -I$(LIB_INC) -D_BUILD64XX -Wno-unused-parameter 
 
 CC = clang
-CFLAGS := -Wall -Wextra -mtune=native -O0 -std=c17 -Wno-unused-parameter -g
+CFLAGS := -Wall -Wextra -std=c17 -Wno-unused-parameter
+
+ifdef Release
+CXFLAGS += -O3 -mtune=native -march=x86-64-v2
+endif
+ifndef Release
+CXFLAGS += -O0 -g
+endif
 
 LD = clang++
 LDFLAGS := -O2 -L$(LIB_DIR) -lreadline -lncurses

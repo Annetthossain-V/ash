@@ -84,9 +84,14 @@ void replace_home(std::vector<std::string>& line) {
 void replace_asterisk(std::vector<std::string>& line) {}
 
 void replace_alias(std::vector<std::string>& line) {
+  if (line[0] == "alias")
+    return;
 
   for (auto &str : line) {
-    
+    if (alias.contains(str)) {
+      auto item = alias.find(str);
+      str = item->second;
+    }
   }
 }
 
@@ -122,6 +127,7 @@ std::vector<std::string> formatted_line(std::string line) {
   std::vector<std::string> line_tokens = split_space(line);
   replace_home(line_tokens);
   replace_vars(line_tokens);
+  replace_alias(line_tokens);
 
   split_len = line_tokens.size();
   return line_tokens;
