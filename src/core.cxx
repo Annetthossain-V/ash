@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <sys/wait.h>
+#include <iostream>
 
 #include "core.h"
 #include "helper.h"
@@ -62,5 +63,7 @@ void exec_cmd(char** argv) {
 
   return;
 }
+
+
 
 }

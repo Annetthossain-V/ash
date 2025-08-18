@@ -8,8 +8,16 @@
 
 namespace math {
 
-void math_handler(std::vector<std::string> &line) {
+void math_handler(std::vector<std::string>& line) {
   throw std::runtime_error("unimplemented");
+
+  return;
+}
+
+void cond_handler(std::vector<std::string>& line) {
+  throw std::runtime_error("unimplemented");
+
+  return;
 }
 
 

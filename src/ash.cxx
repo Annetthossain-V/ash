@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <nl_types.h>
 #include <string>
 #include <vector>
 #include <readline/readline.h>
@@ -14,6 +15,7 @@
 #include "helper.h"
 #include "utils.h"
 #include "var.h"
+#include "math.h"
 
 #define SIG_CONT  22
 #define SIG_RET   73
@@ -72,6 +74,11 @@ int shell_core(std::string& line) {
     return SIG_CONT;
   }
 
+  else if (line[0] == '#')
+    return SIG_CONT;
+    
+   
+  
   std::vector<std::string> fmt_line = format::formatted_line(line);
   if (fmt_line.empty())
     return SIG_CONT;
@@ -87,16 +94,23 @@ int shell_core(std::string& line) {
         std::cerr << "too many arguments for cd\n";
         return SIG_CONT;
       }
-
       if (!utils::cd(fmt_line[1]))
         perror("cd");
-
       return SIG_RET;
+
     case key_cmd::let_key:
       if (!variable::var_handler(fmt_line))
         core::exitcode = 1;
-
       return SIG_RET;
+
+    case key_cmd::alias_key:
+      core::invoke_except(format::setalias, std::ref(fmt_line));
+      return SIG_RET;
+
+    case key_cmd::math_key:
+      
+      return SIG_RET;
+
     default:
       return SIG_CONT;
     }

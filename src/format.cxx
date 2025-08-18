@@ -1,4 +1,5 @@
 #include <map>
+#include <stdexcept>
 #include <string>
 #include <vector>
 #include <cstdlib>
@@ -68,8 +69,6 @@ std::vector<std::string> split_space(const std::string& s) {
 
 void replace_home(std::vector<std::string>& line) {
   std::string dir = io::envinfo("HOME");
-  size_t pos;
-  size_t index = 0;
 
   for (auto &str : line) {
     size_t pos = 0;
@@ -82,12 +81,19 @@ void replace_home(std::vector<std::string>& line) {
   return;
 }
 
-void replace_alias(std::vector<std::string>& line);
+void replace_asterisk(std::vector<std::string>& line) {}
+
+void replace_alias(std::vector<std::string>& line) {
+
+  for (auto &str : line) {
+    
+  }
+}
 
 void replace_vars(std::vector<std::string>& line) {
   variable::var data(variable::var_mode::i32, 1);
-
-  size_t index = 0;
+  if (line[0] == "math")
+    return;
 
   for (auto &str : line) {
     if (str[0] == '$') {
@@ -131,8 +137,20 @@ void formatted_line_free(char** line) {
 }
 
 void setalias(std::vector<std::string> &line) {
+  std::string name;
+  std::string val;
 
+  if (line.size() < 3 || (line[2] == "=" && line.size() < 4))
+    throw std::runtime_error("invalid args");
 
+  if (line[2] == "=") {
+    name = line[1];
+    val = line[3];
+  } else {
+    name = line[1];
+    val = line[2];
+  }
+  alias.insert_or_assign(name, val);
   return;
 }
 

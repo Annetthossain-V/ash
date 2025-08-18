@@ -1,5 +1,9 @@
 #pragma once
 #include <string>
+#include <iostream>
+#include <stdexcept>
+#include <functional>
+#include <exception>
 
 int shell_core(std::string& line);
 
@@ -10,5 +14,24 @@ extern int exitcode;
 void set_buffer(bool enable);
 
 void exec_cmd(char** argv);
+
+template <typename ExceptionType>
+void eprintexcept(const ExceptionType& err) {
+  std::cerr << "[ASH ERROR EXCP]: " << err.what() << std::endl;
+}
+
+template <typename Func, typename... Args>
+void invoke_except(Func&& f, Args&&... args) {
+  try {
+    std::invoke(std::forward<Func>(f), std::forward<Args>(args)...);
+  } catch (const std::runtime_error& err) {
+    std::cerr << "[Runtime error]" << std::endl;
+    eprintexcept(err);
+  } catch (const std::exception& err) {
+    eprintexcept(err);
+  } catch (...) {
+    std::cerr << "[ASH ERROR EXCP]: ERR 44" << std::endl;
+  }
+}
 
 }
