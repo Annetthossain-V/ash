@@ -5,6 +5,13 @@
 #include <functional>
 #include <exception>
 
+
+#define SIG_RET   44
+#define SIG_ERROR 88
+#define SIG_EXIT  64
+#define SIG_CONT  16
+
+
 int shell_core(std::string& line);
 
 namespace core {

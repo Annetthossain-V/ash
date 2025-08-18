@@ -5,14 +5,14 @@
 
 namespace fs {
 
-extern bool is_open;
-extern std::ifstream* file_stream;
+extern std::ifstream file_stream;
 
 void open_file(std::string name);
 std::string file_readline();
 void close_file();
 
-void set_rc();
+void rcinit();
 
+void file_read(std::string& name);
 
 }

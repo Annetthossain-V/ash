@@ -18,11 +18,7 @@
 #include "var.h"
 #include "math.h"
 #include "io.h"
-
-#define SIG_CONT  22
-#define SIG_RET   73
-#define SIG_ERROR 67
-#define SIG_EXIT  87
+#include "fs.h"
 
 
 void flags(int argc, char** argv) { }
@@ -40,7 +36,8 @@ int main(int argc, char** argv) {
   signal(SIGINT, ctrl_c);
   flags(argc, argv);
   rl_initialize();
-
+  
+  fs::rcinit();
 
   while (true) {
     char* line_ptr = console::get_stdin();
@@ -68,7 +65,7 @@ int shell_core(std::string& line) {
     return SIG_EXIT;
 
   else if (line == "version" || line == "ver") {
-    std::println("Ash Version 1.0");
+    std::println("Ash Version 1.1");
     return SIG_CONT;
   }
 

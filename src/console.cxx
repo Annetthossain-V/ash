@@ -16,6 +16,8 @@ namespace console {
 char* user_prompt() {
 
 
+  // our next target
+
   char* prompt = (char*) malloc(1024);
   getcwd(prompt, 1000);
 
@@ -25,7 +27,7 @@ char* user_prompt() {
   strcat(prompt, exit_code.c_str());
   strcat(prompt, "]->$ ");
 
-
+  // this is a mess
 
   return prompt;
 }
