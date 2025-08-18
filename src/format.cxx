@@ -101,8 +101,6 @@ void replace_vars(std::vector<std::string>& line) {
     return;
   if (line[0] == "import")
     return;
-  if (line[0] == "export")
-    return;
 
   for (auto &str : line) {
     if (str[0] == '$') {
