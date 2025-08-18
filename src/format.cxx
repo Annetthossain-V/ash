@@ -8,7 +8,9 @@
 
 #include "io.h"
 #include "format.h"
-#include "var.h" 
+#include "var.h"
+
+#include <iostream>
 
 static int split_len = 0;
 
@@ -87,10 +89,19 @@ void replace_alias(std::vector<std::string>& line) {
   if (line[0] == "alias")
     return;
 
+  int index = 0;
   for (auto &str : line) {
     if (alias.contains(str)) {
       auto item = alias.find(str);
-      str = item->second;
+      auto item_split = split_space(item->second);
+      replace_home(item_split);
+     
+      line.erase(line.begin() + index);
+      line.insert(line.begin() + index, item_split.begin(), item_split.end());
+
+      index += item_split.size();
+    } else {
+      index++;
     }
   }
 }

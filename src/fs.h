@@ -12,5 +12,7 @@ void open_file(std::string name);
 std::string file_readline();
 void close_file();
 
+void set_rc();
+
 
 }
