@@ -4,6 +4,7 @@
 #include <print>
 
 #include "utils.h"
+#include "core.h"
 
 namespace utils {
 
@@ -14,6 +15,7 @@ void cd(std::vector<std::string>& path) {
   if (chdir(path[1].c_str()) != 0)
     throw std::runtime_error("path not found");
 
+  core::exitcode = 0;
   return;
 }
 
@@ -26,8 +28,9 @@ void utils_print(std::vector<std::string>& line) {
     }
     std::print("{} ", str);
   }
-  
   std::println("");;
+  
+  core::exitcode = 0;
   return;
 }
 
