@@ -18,7 +18,7 @@ namespace core {
 
 extern int exitcode;
 
-void set_buffer(bool enable);
+void disable_ctrl_c();
 
 void exec_cmd(char** argv);
 

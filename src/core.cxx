@@ -4,48 +4,29 @@
 #include <cstdio>
 #include <cstdlib>
 #include <sys/wait.h>
-#include <iostream>
+#include <print>
 
 #include "core.h"
-#include "helper.h"
 
 namespace core {
 
 int exitcode = 0;
 
-void set_buffer(bool enable) {
-  static bool enabled = true;
-  static struct termios old;
-  struct termios newt;
-
-  if (enable && !enabled) {
-    tcsetattr(STDIN_FILENO, TCSANOW, &old);
-    enabled = true;
-  }
-  else if (!enable && enabled) {
-    tcgetattr(STDIN_FILENO, &newt);
-    old = newt;
-
-    newt.c_lflag &= ~(ICANON | ECHO | ISIG);
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-    enabled = false;
-  }
-  return;
-}
+void disable_ctrl_c() {}
 
 void exec_cmd(char** argv) {
   int status;
   pid_t process = fork();
 
   if (process < 0) {
-    perror("fork failed");
+    std::println("{} not found!", argv[0]);
     exit(1);
   }
 
   else if (process == 0) {
     // chiled
     execvp(argv[0], argv);
-    perror("execvp failed");
+    ;
     exit(1);
   }
   else {
