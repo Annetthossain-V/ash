@@ -19,14 +19,14 @@ void exec_cmd(char** argv) {
   pid_t process = fork();
 
   if (process < 0) {
-    std::println("{} not found!", argv[0]);
+    perror("fork failed");
     exit(1);
   }
 
   else if (process == 0) {
     // chiled
     execvp(argv[0], argv);
-    ;
+    std::println("{} not found!", argv[0]);
     exit(1);
   }
   else {
