@@ -22,6 +22,8 @@ enum key_cmd check_if_internel(std::string& cmd) {
     return key_cmd::alias_key;
   else if (cmd == "print")
     return key_cmd::print_key;
+  else if (cmd == "fsread")
+    return key_cmd::fsread_key;
 
   return key_cmd::none_key;
 }

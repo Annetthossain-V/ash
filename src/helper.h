@@ -11,6 +11,7 @@ enum key_cmd {
   math_key,
   alias_key,
   print_key,
+  fsread_key,
 };
 
 namespace helper {

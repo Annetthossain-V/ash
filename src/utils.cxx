@@ -5,6 +5,7 @@
 
 #include "utils.h"
 #include "core.h"
+#include "fs.h"
 
 namespace utils {
 
@@ -33,5 +34,13 @@ void utils_print(std::vector<std::string>& line) {
   core::exitcode = 0;
   return;
 }
+
+void fs_read(std::vector<std::string>& line) {
+  if (line.size() != 2)
+    throw std::runtime_error("invalid args");
+
+  fs::file_read(line[1]);
+  return;
+} 
 
 }

@@ -110,6 +110,10 @@ int shell_core(std::string& line) {
       utils::utils_print(fmt_line);
       return SIG_RET;
 
+    case key_cmd::fsread_key:
+      core::invoke_except(utils::fs_read, std::ref(fmt_line));
+      return SIG_RET;
+
     default:
       return SIG_CONT;
     }
