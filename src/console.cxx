@@ -39,6 +39,9 @@ std::string user_prompt() {
     format.type = variable::var_mode::str;
 
   line = std::any_cast<std::string>(format.data(format.type));
+  if (line.empty())
+    line = "# ";
+
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(core::stop - core::start);
   auto err_code = std::to_string(core::exitcode);
 
