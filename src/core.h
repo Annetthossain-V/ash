@@ -4,6 +4,9 @@
 #include <stdexcept>
 #include <functional>
 #include <exception>
+#include <unistd.h>
+#include <sys/types.h>
+#include <chrono>
 
 
 #define SIG_RET   44
@@ -17,8 +20,10 @@ int shell_core(std::string& line);
 namespace core {
 
 extern int exitcode;
+extern pid_t new_pid;
 
-void disable_ctrl_c();
+extern std::chrono::time_point<std::chrono::high_resolution_clock> start;
+extern std::chrono::time_point<std::chrono::high_resolution_clock> stop;
 
 void exec_cmd(char** argv);
 

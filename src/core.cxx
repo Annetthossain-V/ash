@@ -1,3 +1,4 @@
+#include <chrono>
 #include <sys/types.h>
 #include <unistd.h>
 #include <termios.h>
@@ -11,11 +12,16 @@
 namespace core {
 
 int exitcode = 0;
+pid_t new_pid; 
+
+std::chrono::time_point<std::chrono::high_resolution_clock> start;
+std::chrono::time_point<std::chrono::high_resolution_clock> stop;
 
 void disable_ctrl_c() {}
 
 void exec_cmd(char** argv) {
   int status;
+  start = std::chrono::high_resolution_clock::now();
   pid_t process = fork();
 
   if (process < 0) {
@@ -30,7 +36,7 @@ void exec_cmd(char** argv) {
     exit(1);
   }
   else {
-    // parent
+    new_pid = process;
     if (waitpid(process, &status, 0) == -1) {
       perror("waitpid failed");
       exit(1);
@@ -42,6 +48,7 @@ void exec_cmd(char** argv) {
      exitcode = -1;
   }
 
+  stop = std::chrono::high_resolution_clock::now();
   return;
 }
 

@@ -3,7 +3,7 @@
 
 namespace console {
 
-char* get_stdin();
+std::string get_stdin();
+std::string user_prompt();
 
 }
-

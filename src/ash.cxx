@@ -24,10 +24,9 @@
 void flags(int argc, char** argv) { }
 
 void ctrl_c(int signum) { 
-  char* cstr = console::get_stdin();
-  add_history(cstr);
-  std::string str = cstr;
-  if (shell_core(str) == SIG_EXIT)
+  std::string cstr = console::get_stdin();
+  add_history(cstr.c_str());
+  if (shell_core(cstr) == SIG_EXIT)
     exit(0);
 }
 
@@ -40,9 +39,8 @@ int main(int argc, char** argv) {
   fs::rcinit();
 
   while (true) {
-    char* line_ptr = console::get_stdin();
-    std::string line = line_ptr;
-    add_history(line_ptr);
+    std::string line = console::get_stdin();
+    add_history(line.c_str());
 
     int sig = shell_core(line);
      
@@ -51,7 +49,6 @@ int main(int argc, char** argv) {
     else if (sig == SIG_ERROR)
       return 1;
 
-    free(line_ptr);
   }
 
   return 0;
