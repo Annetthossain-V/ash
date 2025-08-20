@@ -1,12 +1,14 @@
 #include <stdexcept>
 #include <vector>
 #include <string>
-#include <exception>
 
 #include "math.h"
 #include "var.h"
 
 namespace math {
+
+std::vector<std::string> commands;
+bool breakl = false;
 
 void math_handler(std::vector<std::string>& line) {
 
@@ -26,6 +28,12 @@ void cond_handler(std::vector<std::string>& line) {
 
   return;
 }
+
+void cond_runner(std::vector<std::string>& line) {}
+
+void cond_if(std::vector<std::string>& line) {}
+
+void cond_while(std::vector<std::string>& line) {}
 
 
 }

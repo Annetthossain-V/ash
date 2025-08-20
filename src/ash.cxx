@@ -62,7 +62,7 @@ int shell_core(std::string& line) {
     return SIG_EXIT;
 
   else if (line == "version" || line == "ver") {
-    std::println("Ash Version 1.1");
+    std::println("Ash Version 1.2");
     return SIG_CONT;
   }
 
