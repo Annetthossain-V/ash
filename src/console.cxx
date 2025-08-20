@@ -2,7 +2,7 @@
 #include <chrono>
 #include <unistd.h>
 #include <cstdlib>
-#include <cstdio>
+#include <filesystem>
 #include <cstring>
 #include <string>
 #include <any>
@@ -20,8 +20,8 @@
 namespace console {
 
 // let CFMT = ":[;]->$ "
-// : is current dir
-// ; is exit code
+// , is current dir
+// . is exit code
 // ' is execution time 
 // ` is current pid
 // | is new pid
@@ -40,18 +40,35 @@ std::string user_prompt() {
 
   line = std::any_cast<std::string>(format.data(format.type));
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(core::stop - core::start);
- 
-  std::println("fmt prompt: {}", line);
-  // for (;;);
+  auto err_code = std::to_string(core::exitcode);
 
-  std::string curr_dir;
-  getcwd(curr_dir.data(), 512);
-  curr_dir.append(curr_dir.data());
-  std::println("curr dir = {}", curr_dir); 
+  std::string curr_dir = std::filesystem::current_path();
 
+  std::string line_cfmt;
 
-//ret:
-  return line;
+  for (char c : line) {
+    switch (c) {
+      case ',':
+        line_cfmt.append(curr_dir);
+        break;
+      case '.':
+        line_cfmt.append(err_code);
+        break;
+      case '\'':
+        line_cfmt.append(std::to_string(duration.count()));
+        break;
+      case '`':
+        line_cfmt.append(std::to_string(_curr_pid));
+        break;
+      case '|':
+        line_cfmt.append(std::to_string(_new_pid));
+        break;
+      default:
+        line_cfmt.push_back(c);
+    }
+  }
+
+  return line_cfmt;
 }
 
 std::string get_stdin() {
