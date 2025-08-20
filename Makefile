@@ -11,7 +11,7 @@ CC = cc
 CFLAGS := -Wall -Wextra -std=c17 -Wno-unused-parameter
 
 ifdef Release
-CXFLAGS += -O3 -mtune=native -march=x86-64-v2 -fPIE -ffunction-sections -fdata-sections -fstack-protector-strong -D_FORTIFY_SOURCE=2 -flto
+CXFLAGS += -O3 -mtune=native -march=x86-64-v2 -fPIC -ffunction-sections -fdata-sections -fstack-protector-strong -D_FORTIFY_SOURCE=2 -flto
 endif
 ifndef Release
 CXFLAGS += -O0 -g
