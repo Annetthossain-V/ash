@@ -24,8 +24,12 @@ void math_handler(std::vector<std::string>& line) {
 }
 
 void cond_handler(std::vector<std::string>& line) {
-  throw std::runtime_error("cond unimplemented");
+  if (line[2] == "if")
+    return cond_if(line);
+  else if (line[2] == "while")
+    return cond_while(line);
 
+  throw std::runtime_error("undefined condition");
   return;
 }
 
